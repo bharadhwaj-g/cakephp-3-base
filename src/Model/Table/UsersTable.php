@@ -60,6 +60,14 @@ class UsersTable extends Table
             ->scalar('name')
             ->maxLength('name', 100)
             ->allowEmpty('name');
+        
+         $validator
+        ->notEmpty('role', 'A role is required')
+            ->add('role', 'inList', [
+                'rule' => ['inList', ['admin', 'user']],
+                'message' => 'Please enter a valid role'
+            ]);
+
 
         $validator
             ->scalar('password')
@@ -70,6 +78,12 @@ class UsersTable extends Table
             ->scalar('mobile_number')
             ->maxLength('mobile_number', 15)
             ->allowEmpty('mobile_number');
+        
+        $validator
+                ->integer('active')
+                ->requirePresence('active', 'create')
+                ->notEmpty('active');
+        
 
         return $validator;
     }
